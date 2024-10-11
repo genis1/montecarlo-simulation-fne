@@ -1,39 +1,50 @@
 import random
 import math
 
-# This is a test comment
+import numpy
+import numpy as np
 
-def elastic_collision_with_stationary_mass(v0, m0, m2):
-    # theta is the angle of deflection with respect to the original trajectory, 0 for no deflection
-    cos_theta = 2 * random.random() - 1
-    # phi being the angle of direction of the deflection
-    phi = 2 * math.pi * random.random()
-    # Calculating v0
-    alpha = (m2 ** 2 + 2 * m2 * m0 * cos_theta + m0 ** 2) / ((m2 + m0) ** 2)
-    print("alpha: " + str(alpha))
-    v0f = v0 * pow(alpha, 0.5)
-    # angle definition in equations:
-    sin_theta = pow(1 - cos_theta ** 2, 0.5)
-    vx = v0f * cos_theta
-    vy = v0f * sin_theta * math.sin(phi)
-    vz = v0f * sin_theta * math.cos(phi)
-    return [vx, vy, vz]
+def elastic_collision(v_0_LAB, mass_target):
+    cos_theta_collision_CM = 2 * random.random() - 1
 
+    Acos = mass_target * cos_theta_collision_CM
+    common_numerator = mass_target + 1
+    to_be_squared = math.pow(mass_target, 2) - math.pow(Acos, 2)
 
-def sum_of_squares(arr):
-    return sum(x * x for x in arr)
+    parallel_factor = (Acos + 1) / common_numerator
+    perpendicular_factor = np.linalg.norm(v_0_LAB) * math.sqrt(to_be_squared) / common_numerator
+
+    v_f_perpendicular_LAB = normalize_vector(numpy.cross(v_0_LAB, get_random_vector()))
+
+    v_f_LAB = parallel_factor * v_0_LAB + perpendicular_factor * v_f_perpendicular_LAB
+
+    return v_f_LAB
 
 
-v0 = [100, 0, 0]
-m0 = 1
-m2 = 100
+def normalize_vector(vector):
+    norm = np.linalg.norm(vector)
+    if norm == 0:
+        return vector
+    return vector / norm
 
-print("v0: " + str(v0))
 
-E0 = m0 * pow(v0[0], 2) / 2
-print("E0: " + str(E0))
-vf = elastic_collision_with_stationary_mass(v0[0], m0, m2)
-print("vf: " + str(vf))
+def get_random_vector():
+    random_cos_theta = 2 * random.random() - 1
+    random_sin_theta = math.sqrt(1 - math.pow(random_cos_theta, 2))
+    random_phi = 2 * math.pi * random.random()
+    random_cos_phi = math.cos(random_phi)
+    random_sin_phi = math.sin(random_phi)
+    random_vector = [
+        random_cos_phi * random_sin_theta,
+        random_sin_phi * random_sin_theta,
+        random_cos_theta
+    ]
+    return np.array(random_vector)
 
-Ef = sum_of_squares(vf) * m0 / 2
-print("Ef: " + str(Ef))
+
+v2 = np.array([1, 0, 0])
+
+
+v_f = elastic_collision(v2, 16)
+print("elastic collsion: " + str(v_f))
+print("norm vf:" + str(np.linalg.norm(v_f)))
