@@ -2,6 +2,7 @@ import math
 import random
 
 import numpy as np
+from numpy.linalg import norm as get_norm
 
 
 def elastic_collision(v_0_LAB, mass_target):
@@ -12,7 +13,7 @@ def elastic_collision(v_0_LAB, mass_target):
     to_be_squared = math.pow(mass_target, 2) - math.pow(Acos, 2)
 
     parallel_factor = (Acos + 1) / common_numerator
-    perpendicular_factor = np.linalg.norm(v_0_LAB) * math.sqrt(to_be_squared) / common_numerator
+    perpendicular_factor = get_norm(v_0_LAB) * math.sqrt(to_be_squared) / common_numerator
 
     v_f_perpendicular_LAB = normalize_vector(np.cross(v_0_LAB, get_random_vector()))
 
@@ -22,7 +23,7 @@ def elastic_collision(v_0_LAB, mass_target):
 
 
 def normalize_vector(vector):
-    norm = np.linalg.norm(vector)
+    norm = get_norm(vector)
     if norm == 0:
         return vector
     return vector / norm
@@ -42,9 +43,11 @@ def get_random_vector():
     return np.array(random_vector)
 
 
-v2 = np.array([1, 0, 0])
+v2 = np.array([1 / 2, 1 / 2, 1 / 2])
 
-
-v_f = elastic_collision(v2, 16)
+v_f = elastic_collision(v2, 0.1)
 print("elastic collsion: " + str(v_f))
-print("norm vf:" + str(np.linalg.norm(v_f)))
+print("norm vf:" + str(get_norm(v_f)))
+
+min_values = min(get_norm(elastic_collision(v2, 16)) for x in range(1000))
+print("min_value" + str(min_values))
