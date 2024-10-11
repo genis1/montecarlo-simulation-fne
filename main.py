@@ -1,8 +1,8 @@
-import random
 import math
+import random
 
-import numpy
 import numpy as np
+
 
 def elastic_collision(v_0_LAB, mass_target):
     cos_theta_collision_CM = 2 * random.random() - 1
@@ -14,7 +14,7 @@ def elastic_collision(v_0_LAB, mass_target):
     parallel_factor = (Acos + 1) / common_numerator
     perpendicular_factor = np.linalg.norm(v_0_LAB) * math.sqrt(to_be_squared) / common_numerator
 
-    v_f_perpendicular_LAB = normalize_vector(numpy.cross(v_0_LAB, get_random_vector()))
+    v_f_perpendicular_LAB = normalize_vector(np.cross(v_0_LAB, get_random_vector()))
 
     v_f_LAB = parallel_factor * v_0_LAB + perpendicular_factor * v_f_perpendicular_LAB
 
