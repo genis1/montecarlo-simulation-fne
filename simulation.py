@@ -15,25 +15,17 @@ MACROSCOPIC_CROSS_SECTION = 0.361663
 def get_distance_to_next_interaction(macroscopic_cross_section):
     return - math.log(random()) / macroscopic_cross_section
 
-
 def get_atomic_mass_target():
     if random() < HYDROGEN_SCATTERING_PERCENTAGE:
         return 1
     else:
         return 16
 
-
 def is_outside_right(position):
-    if position[0] > 30:
-        return True
-    return False
-
+    return position[0] > 30
 
 def is_outside_left(position):
-    if position[0] < 0:
-        return True
-    return False
-
+    return position[0] < 0
 
 def is_absorbed():
     return random() < ABSORBANCE_PERCENTAGE
@@ -42,39 +34,34 @@ def is_absorbed():
 def is_thermalized(v_f):
     return get_norm(v_f) < THERMALIZED_VELOCITY_THRESHOLD
 
-def calculate_percentage(lst):
-    unique_elements = set(lst)  # Get unique elements in the list
-    total = len(lst)  # Total number of elements
-    percentages = {element: (lst.count(element) / total) * 100 for element in unique_elements}  # Calculate percentages
-    sorted_percentages = {k: percentages[k] for k in sorted(percentages)}  # Sort by key
-    return sorted_percentages
+def simulate(x, v, ENERGY_ANALYSED_COLLISIONS):
+    positions = []
+    scattering_angles = []
+    energies = []
 
+    num_collisions = 0
 
-# Possible simulation results: ESCAPED_RIGHT, ESCAPED_LEFT, ABSORBED, THERMALIZED
-
-def simulate(x, v):
     while True:
         distance = get_distance_to_next_interaction(MACROSCOPIC_CROSS_SECTION)
         x = x + ((distance / get_norm(v)) * v)
+
         if is_outside_right(x):
-            return "ESCAPED_RIGHT"
-
+            return "ESCAPED_RIGHT", positions, scattering_angles, energies
         if is_outside_left(x):
-            return "ESCAPED_LEFT"
-
+            return "ESCAPED_LEFT", positions, scattering_angles, energies
         if is_absorbed():
-            return "ABSORBED"
+            return "ABSORBED", positions, scattering_angles, energies
 
-        v = elastic_collision(v, get_atomic_mass_target())
+        v, theta_lab, energy = elastic_collision(v, get_atomic_mass_target())
+        scattering_angles.append(theta_lab)
+
+        if num_collisions < ENERGY_ANALYSED_COLLISIONS:
+            energies.append(energy)
 
         if is_thermalized(v):
-            return "THERMALIZED"
+            positions.append(x)
+            return "THERMALIZED", positions, scattering_angles, energies
 
+        positions.append(x)
 
-v_0 = np.array([1, 0, 0])
-# Position in cm
-x_0 = np.array([0, 0, 0])
-
-results = [simulate(x_0, v_0) for i in range(10000)]
-
-print(calculate_percentage(results))
+        num_collisions += 1
