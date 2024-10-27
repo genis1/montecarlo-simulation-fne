@@ -20,7 +20,10 @@ def elastic_collision(v_0_LAB, mass_target):
     cos_theta_lab = np.dot(normalize_vector(v_0_LAB), normalize_vector(v_f_LAB))
     theta_lab = math.acos(cos_theta_lab)
     
-    return v_f_LAB, theta_lab
+    # Calulate particle energy after collision
+    energy = calculate_energy(v_f_LAB)
+    
+    return v_f_LAB, theta_lab, energy
 
 def normalize_vector(vector):
     norm = get_norm(vector)
@@ -40,3 +43,6 @@ def get_random_vector():
         random_cos_theta
     ]
     return np.array(random_vector)
+
+def calculate_energy(velocity, mass_neutron=1):
+    return 0.5 * mass_neutron * get_norm(velocity) ** 2
