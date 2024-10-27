@@ -7,7 +7,7 @@ from main import elastic_collision
 HYDROGEN_SCATTERING_PERCENTAGE = 7.8 / 10.5
 ABSORBANCE_PERCENTAGE = 0.010063 / 0.361663
 # Unitless, initial velocity 1MeV, thermalized velocity threshold 1eV
-THERMALIZED_VELOCITY_THRESHOLD = 1 / math.sqrt(10 * 6)
+THERMALIZED_VELOCITY_THRESHOLD = 1 / math.sqrt(10 ** 6)
 # In cm-1
 MACROSCOPIC_CROSS_SECTION = 0.361663
 
