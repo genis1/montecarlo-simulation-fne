@@ -44,7 +44,7 @@ plt.show()
 # Plot histogram for energy frequency after each of the first 8 collisions
 for i in range(ENERGY_ANALYSED_COLLISIONS):
     plt.hist(collision_energies[i], bins=50, color='lightgreen', edgecolor='black')
-    plt.xlabel('Energy after collision {} (eV)'.format(i+1))
+    plt.xlabel('Energy after collision {} (MeV)'.format(i+1))
     plt.ylabel('Frequency')
     plt.title(f'Energy Distribution After Collision {i+1}')
     plt.show()

@@ -45,4 +45,4 @@ def get_random_vector():
     return np.array(random_vector)
 
 def calculate_energy(velocity, mass_neutron=1):
-    return 0.5 * mass_neutron * get_norm(velocity) ** 2
+    return get_norm(velocity)
