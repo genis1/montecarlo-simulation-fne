@@ -7,7 +7,7 @@ from main import elastic_collision
 HYDROGEN_SCATTERING_PERCENTAGE = 7.8 / 10.5
 ABSORBANCE_PERCENTAGE = 0.010063 / 0.361663
 # Unitless, initial velocity 1MeV, thermalized velocity threshold 1eV
-THERMALIZED_VELOCITY_THRESHOLD = 1 / math.sqrt(10 ^ 9)
+THERMALIZED_VELOCITY_THRESHOLD = 1 / math.sqrt(10 * 6)
 # In cm-1
 MACROSCOPIC_CROSS_SECTION = 0.361663
 
@@ -17,7 +17,7 @@ def get_distance_to_next_interaction(macroscopic_cross_section):
 
 
 def get_atomic_mass_target():
-    if random() < (HYDROGEN_SCATTERING_PERCENTAGE):
+    if random() < HYDROGEN_SCATTERING_PERCENTAGE:
         return 1
     else:
         return 16
@@ -55,7 +55,7 @@ def calculate_percentage(lst):
 def simulate(x, v):
     while True:
         distance = get_distance_to_next_interaction(MACROSCOPIC_CROSS_SECTION)
-        x = x + ((distance / get_norm(v_0)) * v_0)
+        x = x + ((distance / get_norm(v)) * v)
         if is_outside_right(x):
             return "ESCAPED_RIGHT"
 
@@ -75,6 +75,6 @@ v_0 = np.array([1, 0, 0])
 # Position in cm
 x_0 = np.array([0, 0, 0])
 
-results = [simulate(x_0, v_0) for i in range(100000)]
+results = [simulate(x_0, v_0) for i in range(10000)]
 
 print(calculate_percentage(results))
