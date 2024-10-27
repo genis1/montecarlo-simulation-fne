@@ -9,6 +9,7 @@ ABSORBANCE_PERCENTAGE = 0.010063 / 0.361663
 THERMALIZED_VELOCITY_THRESHOLD = 1 / math.sqrt(10 ** 6)
 MACROSCOPIC_CROSS_SECTION = 0.361663
 
+
 def get_distance_to_next_interaction(macroscopic_cross_section):
     return - math.log(random()) / macroscopic_cross_section
 
@@ -30,25 +31,34 @@ def is_absorbed():
 def is_thermalized(v_f):
     return get_norm(v_f) < THERMALIZED_VELOCITY_THRESHOLD
 
-def simulate(x, v):
+def simulate(x, v, ENERGY_ANALYSED_COLLISIONS):
     positions = []
     scattering_angles = []
+    energies = []
+    
+    num_collisions = 0
     
     while True:
         distance = get_distance_to_next_interaction(MACROSCOPIC_CROSS_SECTION)
         x = x + ((distance / get_norm(v)) * v)
         
         if is_outside_right(x):
-            return "ESCAPED_RIGHT", positions, scattering_angles
+            return "ESCAPED_RIGHT", positions, scattering_angles, energies
         if is_outside_left(x):
-            return "ESCAPED_LEFT", positions, scattering_angles
+            return "ESCAPED_LEFT", positions, scattering_angles, energies
         if is_absorbed():
-            return "ABSORBED", positions, scattering_angles
+            return "ABSORBED", positions, scattering_angles, energies
         
-        v, theta_lab = elastic_collision(v, get_atomic_mass_target())
+        v, theta_lab, energy = elastic_collision(v, get_atomic_mass_target())
         scattering_angles.append(theta_lab)
+        
+        if num_collisions < ENERGY_ANALYSED_COLLISIONS:
+            energies.append(energy)
         
         if is_thermalized(v):
             positions.append(x)
-            return "THERMALIZED", positions, scattering_angles
+            return "THERMALIZED", positions, scattering_angles, energies
+        
         positions.append(x)
+        
+        num_collisions += 1
