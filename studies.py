@@ -63,6 +63,6 @@ average_energy_per_collision = [
 
 plt.plot(range(1, ENERGY_ANALYSED_COLLISIONS + 1), average_energy_per_collision, marker='o', linestyle='-', color='blue')
 plt.xlabel('Collision Number')
-plt.ylabel('Average Energy (eV)')
+plt.ylabel('Average Energy (MeV)')
 plt.title('Evolution of Average Energy over Eight first Collisions')
 plt.show()
