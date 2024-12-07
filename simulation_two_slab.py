@@ -137,3 +137,12 @@ def simulate_simple_two_slab(x, v, water_width):
 
         if is_thermalized(v):
             return "THERMALIZED", x
+
+def simulate_single_collision_two_slab(x, v, water_width):
+    x = get_next_position(x, v, water_width)
+
+    if is_outside_right(x):
+        return "ESCAPED_RIGHT", x
+    if is_absorbed(x, water_width):
+        return "ABSORBED", x
+    return "OTHER", x
