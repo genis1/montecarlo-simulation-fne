@@ -41,7 +41,8 @@ def plot_flux_over_position(num_simulations, num_buckets, water_width):
     plt.ylabel('Flux ($cm^{-2}s^{-1}$)')
     plt.title('Flux over position for an initial flux of 1000$cm^{-2}s^{-1}$')
     plt.axvline(x=water_width, color='red', linestyle='--', linewidth=1.5)
-    plt.show()
+    file_name = f"total_flux_{water_width}cm_{num_simulations}_num_buckets{num_buckets}"
+    plt.savefig(f"{file_name}.png", dpi=300, bbox_inches='tight')
 
 
 def plot_single_collision_flux(num_simulations, num_buckets, water_width):
@@ -77,7 +78,8 @@ def plot_single_collision_flux(num_simulations, num_buckets, water_width):
     plt.ylabel('Flux ($cm^{-2}s^{-1}$)')
     plt.title('Flux over position for an initial flux of 1000$cm^{-2}s^{-1}$')
     plt.axvline(x=water_width, color='red', linestyle='--', linewidth=1.5)
-    plt.show()
+    file_name = f"single_collision_flux_{water_width}cm_{num_simulations}_num_buckets{num_buckets}"
+    plt.savefig(f"{file_name}.png", dpi=300, bbox_inches='tight')
 
 
 def plot_multiple_collision_flux_over_position(num_simulations, num_buckets, water_width):
@@ -114,7 +116,8 @@ def plot_multiple_collision_flux_over_position(num_simulations, num_buckets, wat
     plt.ylabel('Flux ($cm^{-2}s^{-1}$)')
     plt.title('Flux over position for an initial flux of 1000$cm^{-2}s^{-1}$')
     plt.axvline(x=water_width, color='red', linestyle='--', linewidth=1.5)
-    plt.show()
+    file_name = f"multiple_collision_flux_{water_width}cm_{num_simulations}_num_buckets{num_buckets}"
+    plt.savefig(f"{file_name}.png", dpi=300, bbox_inches='tight')
 
 
 plot_flux_over_position(num_simulations=200000, num_buckets=60, water_width=5)
