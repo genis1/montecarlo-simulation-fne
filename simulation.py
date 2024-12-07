@@ -71,7 +71,7 @@ def simulate(x, v, ENERGY_ANALYSED_COLLISIONS):
         positions.append(x)
 
 
-def simulate_absorption(x, v):
+def simulate_simple(x, v):
     while True:
         distance = get_distance_to_next_interaction(MACROSCOPIC_CROSS_SECTION)
         x = x + ((distance / get_norm(v)) * v)
