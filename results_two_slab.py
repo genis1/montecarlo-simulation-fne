@@ -1,4 +1,5 @@
 import math
+import os
 from collections import defaultdict
 
 import matplotlib.pyplot as plt
@@ -42,7 +43,7 @@ def plot_flux_over_position(num_simulations, num_buckets, water_width):
     plt.title('Flux over position for an initial flux of 1000$cm^{-2}s^{-1}$')
     plt.axvline(x=water_width, color='red', linestyle='--', linewidth=1.5)
     file_name = f"total_flux_{water_width}cm_{num_simulations}_num_buckets{num_buckets}"
-    plt.savefig(f"{file_name}.png", dpi=300, bbox_inches='tight')
+    plt.savefig(f"figures/{file_name}.png", dpi=300, bbox_inches='tight')
     plt.clf()
 
 
@@ -80,7 +81,7 @@ def plot_single_collision_flux(num_simulations, num_buckets, water_width):
     plt.title('Flux over position for an initial flux of 1000$cm^{-2}s^{-1}$')
     plt.axvline(x=water_width, color='red', linestyle='--', linewidth=1.5)
     file_name = f"single_collision_flux_{water_width}cm_{num_simulations}_num_buckets{num_buckets}"
-    plt.savefig(f"{file_name}.png", dpi=300, bbox_inches='tight')
+    plt.savefig(f"figures/{file_name}.png", dpi=300, bbox_inches='tight')
     plt.clf()
 
 
@@ -119,7 +120,7 @@ def plot_multiple_collision_flux_over_position(num_simulations, num_buckets, wat
     plt.title('Flux over position for an initial flux of 1000$cm^{-2}s^{-1}$')
     plt.axvline(x=water_width, color='red', linestyle='--', linewidth=1.5)
     file_name = f"multiple_collision_flux_{water_width}cm_{num_simulations}_num_buckets{num_buckets}"
-    plt.savefig(f"{file_name}.png", dpi=300, bbox_inches='tight')
+    plt.savefig(f"figures/{file_name}.png", dpi=300, bbox_inches='tight')
     plt.clf()
 
 
@@ -156,11 +157,12 @@ def plot_slowing_down_density(num_simulations, num_buckets, water_width):
     plt.title('Slowing down density over position for an initial flux of 1000$cm^{-2}s^{-1}$')
     plt.axvline(x=water_width, color='red', linestyle='--', linewidth=1.5)
     file_name = f"slowing_down_density_{water_width}cm_{num_simulations}_num_buckets{num_buckets}"
-    plt.savefig(f"{file_name}.png", dpi=300, bbox_inches='tight')
+    plt.savefig(f"figures/{file_name}.png", dpi=300, bbox_inches='tight')
     plt.clf()
 
 
 scale_num_simulation = 1  # 100 for standard, 1000 for good results, 1 for quick test
+os.makedirs("figures", exist_ok=True)
 plot_flux_over_position(num_simulations=2000 * scale_num_simulation, num_buckets=60, water_width=5)
 plot_flux_over_position(num_simulations=2000 * scale_num_simulation, num_buckets=60, water_width=10)
 plot_flux_over_position(num_simulations=2000 * scale_num_simulation, num_buckets=60, water_width=15)
