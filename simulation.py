@@ -69,6 +69,7 @@ def simulate(x, v, ENERGY_ANALYSED_COLLISIONS):
 
         positions.append(x)
 
+
 def simulate_absorption(x, v):
     while True:
         distance = get_distance_to_next_interaction(MACROSCOPIC_CROSS_SECTION)
@@ -86,3 +87,13 @@ def simulate_absorption(x, v):
         if is_thermalized(v):
             return "THERMALIZED", x
 
+
+def simulate_single_collision(x, v):
+    distance = get_distance_to_next_interaction(MACROSCOPIC_CROSS_SECTION)
+    x = x + ((distance / get_norm(v)) * v)
+
+    if is_outside_right(x):
+        return "ESCAPED_RIGHT", x
+    if is_absorbed():
+        return "ABSORBED", x
+    return "OTHER", x
