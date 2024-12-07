@@ -28,11 +28,13 @@ def plot_flux_over_position(num_simulations, num_buckets, water_width):
         bucket_counts[bucket_number] += 1
 
     def transform(position, count):
-        cs_absorbance = get_macroscopic_cross_section_absorbance(get_media([position, 0, 0], water_width))
+        cs_absorbance = get_macroscopic_cross_section_absorbance(
+            get_media([position + (bucket_width / 2), 0, 0], water_width))
         return count * initial_neutron_flux / (
                 num_simulations * bucket_width * cs_absorbance)
 
-    flux_dict = {bucket * bucket_width: transform(bucket * bucket_width, count) for bucket, count in
+    flux_dict = {(bucket * bucket_width + bucket_width / 2): transform(bucket * bucket_width, count) for bucket, count
+                 in
                  bucket_counts.items()}
     flux = np.array(list(flux_dict.values()))
     positions = np.array(list(flux_dict.keys()))
@@ -66,11 +68,13 @@ def plot_single_collision_flux(num_simulations, num_buckets, water_width):
         bucket_counts[bucket_number] += 1
 
     def transform(position, count):
-        cs_absorbance = get_macroscopic_cross_section_absorbance(get_media([position, 0, 0], water_width))
+        cs_absorbance = get_macroscopic_cross_section_absorbance(
+            get_media([position + (bucket_width / 2), 0, 0], water_width))
         return count * initial_neutron_flux / (
                 num_simulations * bucket_width * cs_absorbance)
 
-    flux_dict = {bucket * bucket_width: transform(bucket * bucket_width, count) for bucket, count in
+    flux_dict = {(bucket * bucket_width + (bucket_width / 2)): transform(bucket * bucket_width, count) for bucket, count
+                 in
                  bucket_counts.items()}
     flux = np.array(list(flux_dict.values()))
     positions = np.array(list(flux_dict.keys()))
@@ -105,11 +109,13 @@ def plot_multiple_collision_flux_over_position(num_simulations, num_buckets, wat
         bucket_counts[bucket_number] += 1
 
     def transform(position, count):
-        cs_absorbance = get_macroscopic_cross_section_absorbance(get_media([position, 0, 0], water_width))
+        cs_absorbance = get_macroscopic_cross_section_absorbance(
+            get_media([position + (bucket_width / 2), 0, 0], water_width))
         return count * initial_neutron_flux / (
                 num_simulations * bucket_width * cs_absorbance)
 
-    flux_dict = {bucket * bucket_width: transform(bucket * bucket_width, count) for bucket, count in
+    flux_dict = {(bucket * bucket_width + (bucket_width / 2)): transform(bucket * bucket_width, count) for bucket, count
+                 in
                  bucket_counts.items()}
     flux = np.array(list(flux_dict.values()))
     positions = np.array(list(flux_dict.keys()))
@@ -146,7 +152,7 @@ def plot_slowing_down_density(num_simulations, num_buckets, water_width):
         return count * initial_neutron_flux / (
                 num_simulations * bucket_width)
 
-    flux_dict = {bucket * bucket_width: transform(count) for bucket, count in
+    flux_dict = {(bucket * bucket_width + (bucket_width / 2)): transform(count) for bucket, count in
                  bucket_counts.items()}
     flux = np.array(list(flux_dict.values()))
     positions = np.array(list(flux_dict.keys()))
