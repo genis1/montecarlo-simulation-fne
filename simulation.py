@@ -1,7 +1,8 @@
 import math
 from random import random
+
 from numpy.linalg import norm as get_norm
-import numpy as np
+
 from main import elastic_collision
 
 HYDROGEN_SCATTERING_PERCENTAGE = 7.8 / 10.5
@@ -86,6 +87,28 @@ def simulate_absorption(x, v):
 
         if is_thermalized(v):
             return "THERMALIZED", x
+
+
+def simulate_multiple_collision(x, v):
+    collisions = 0
+    while True:
+        distance = get_distance_to_next_interaction(MACROSCOPIC_CROSS_SECTION)
+        x = x + ((distance / get_norm(v)) * v)
+
+        if is_outside_right(x):
+            return "ESCAPED_RIGHT", x, collisions
+        if is_outside_left(x):
+            return "ESCAPED_LEFT", x, collisions
+
+        collisions += 1
+
+        if is_absorbed():
+            return "ABSORBED", x, collisions
+
+        v, theta_lab, energy = elastic_collision(v, get_atomic_mass_target())
+
+        if is_thermalized(v):
+            return "THERMALIZED", x, collisions
 
 
 def simulate_single_collision(x, v):
