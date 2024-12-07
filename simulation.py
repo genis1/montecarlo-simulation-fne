@@ -68,3 +68,21 @@ def simulate(x, v, ENERGY_ANALYSED_COLLISIONS):
             return "THERMALIZED", positions, scattering_angles, energies, num_collisions
 
         positions.append(x)
+
+def simulate_absorption(x, v):
+    while True:
+        distance = get_distance_to_next_interaction(MACROSCOPIC_CROSS_SECTION)
+        x = x + ((distance / get_norm(v)) * v)
+
+        if is_outside_right(x):
+            return "ESCAPED_RIGHT", x
+        if is_outside_left(x):
+            return "ESCAPED_LEFT", x
+        if is_absorbed():
+            return "ABSORBED", x
+
+        v, theta_lab, energy = elastic_collision(v, get_atomic_mass_target())
+
+        if is_thermalized(v):
+            return "THERMALIZED", x
+
