@@ -7,6 +7,8 @@ from main import elastic_collision
 
 MACROSCOPIC_CS_ABSORPTION_WATER = 0.010063
 MACROSCOPIC_CS_ABSORPTION_CARBON = 0.00026
+MACROSCOPIC_CS_SCATTERING_WATER = 0.361663 - 0.010063
+MACROSCOPIC_CS_SCATTERING_CARBON = 0.3846
 
 HYDROGEN_SCATTERING_PERCENTAGE = 7.8 / 10.5
 ABSORBANCE_RATIO_WATER = MACROSCOPIC_CS_ABSORPTION_WATER / 0.361663
@@ -42,6 +44,14 @@ def get_macroscopic_cross_section_absorbance(current_media):
     else:
         # Using the same cross-section for carbon and void, but it is not relevant.
         return MACROSCOPIC_CS_ABSORPTION_CARBON
+
+
+def get_macroscopic_cross_section_scattering(current_media):
+    if current_media == "WATER":
+        return MACROSCOPIC_CS_SCATTERING_WATER
+    else:
+        # Using the same cross-section for carbon and void, but it is not relevant.
+        return MACROSCOPIC_CS_SCATTERING_CARBON
 
 
 def get_other_macroscopic_cross_section(current_media):

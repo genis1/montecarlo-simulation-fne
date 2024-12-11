@@ -6,7 +6,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from simulation_two_slab import simulate_simple_two_slab, get_media, \
-    get_macroscopic_cross_section_absorbance, simulate_single_collision_two_slab, simulate_multiple_collision_two_slab
+    get_macroscopic_cross_section_absorbance, simulate_single_collision_two_slab, simulate_multiple_collision_two_slab, \
+    get_macroscopic_cross_section_scattering
 
 
 def plot_flux_over_position(num_simulations, num_buckets, water_width):
@@ -59,7 +60,7 @@ def plot_single_collision_flux(num_simulations, num_buckets, water_width):
 
     for i in range(num_simulations):
         result, final_position = simulate_single_collision_two_slab(initial_position, initial_velocity, water_width)
-        if result != "ABSORBED":
+        if result != "OTHER":
             continue
 
         final_x = final_position[0]
@@ -68,10 +69,10 @@ def plot_single_collision_flux(num_simulations, num_buckets, water_width):
         bucket_counts[bucket_number] += 1
 
     def transform(position, count):
-        cs_absorbance = get_macroscopic_cross_section_absorbance(
+        cs_scattering = get_macroscopic_cross_section_scattering(
             get_media([position + (bucket_width / 2), 0, 0], water_width))
         return count * initial_neutron_flux / (
-                num_simulations * bucket_width * cs_absorbance)
+                num_simulations * bucket_width * cs_scattering)
 
     flux_dict = {(bucket * bucket_width + (bucket_width / 2)): transform(bucket * bucket_width, count) for bucket, count
                  in
@@ -167,14 +168,14 @@ def plot_slowing_down_density(num_simulations, num_buckets, water_width):
     plt.clf()
 
 
-scale_num_simulation = 1  # 100 for standard, 1000 for good results, 1 for quick test
+scale_num_simulation = 1000  # 100 for standard, 1000 for good results, 1 for quick test
 os.makedirs("figures", exist_ok=True)
 plot_flux_over_position(num_simulations=2000 * scale_num_simulation, num_buckets=60, water_width=5)
 plot_flux_over_position(num_simulations=2000 * scale_num_simulation, num_buckets=60, water_width=10)
 plot_flux_over_position(num_simulations=2000 * scale_num_simulation, num_buckets=60, water_width=15)
-plot_single_collision_flux(num_simulations=50000 * scale_num_simulation, num_buckets=500, water_width=5)
-plot_single_collision_flux(num_simulations=50000 * scale_num_simulation, num_buckets=500, water_width=10)
-plot_single_collision_flux(num_simulations=50000 * scale_num_simulation, num_buckets=500, water_width=15)
+plot_single_collision_flux(num_simulations=50000 * scale_num_simulation, num_buckets=600, water_width=5)
+plot_single_collision_flux(num_simulations=50000 * scale_num_simulation, num_buckets=600, water_width=10)
+plot_single_collision_flux(num_simulations=50000 * scale_num_simulation, num_buckets=600, water_width=15)
 plot_multiple_collision_flux_over_position(num_simulations=2000 * scale_num_simulation, num_buckets=60, water_width=5)
 plot_multiple_collision_flux_over_position(num_simulations=2000 * scale_num_simulation, num_buckets=60,
                                            water_width=10)
