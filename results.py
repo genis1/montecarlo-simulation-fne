@@ -79,7 +79,7 @@ def plot_single_collision_flux(num_simulations, num_buckets):
     plt.bar(positions, flux, color='skyblue', edgecolor='skyblue', width=bucket_width)
     plt.xlabel('Distance (cm)')
     plt.ylabel('Flux ($cm^{-2}s^{-1}$)')
-    plt.title('Singe collision flux over position for an initial flux of 1000$cm^{-2}s^{-1}$')
+    plt.title('Singe interaction flux over position for an initial flux of 1000$cm^{-2}s^{-1}$')
     file_name = f"single_collision_flux_{num_simulations}_num_buckets{num_buckets}"
     plt.savefig(f"figures/task1/{file_name}.png", dpi=300, bbox_inches='tight')
     plt.clf()
@@ -116,7 +116,7 @@ def plot_multiple_collision_flux_over_position(num_simulations, num_buckets):
     plt.bar(positions, flux, color='skyblue', edgecolor='black', width=bucket_width)
     plt.xlabel('Distance (cm)')
     plt.ylabel('Flux ($cm^{-2}s^{-1}$)')
-    plt.title('Multiple collision flux over position for an initial flux of 1000$cm^{-2}s^{-1}$')
+    plt.title('Multiple interactions flux over position for an initial flux of 1000$cm^{-2}s^{-1}$')
     file_name = f"multiple_collision_flux_{num_simulations}_num_buckets{num_buckets}"
     plt.savefig(f"figures/task1/{file_name}.png", dpi=300, bbox_inches='tight')
     plt.clf()
