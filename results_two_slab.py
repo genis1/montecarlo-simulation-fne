@@ -1,5 +1,6 @@
 import math
 import os
+import time
 from collections import defaultdict
 
 import matplotlib.pyplot as plt
@@ -8,6 +9,8 @@ import numpy as np
 from simulation_two_slab import simulate_simple_two_slab, get_media, \
     get_macroscopic_cross_section_absorbance, simulate_single_collision_two_slab, simulate_multiple_collision_two_slab, \
     get_macroscopic_cross_section_scattering
+
+start_time = time.time()
 
 
 def plot_flux_over_position(num_simulations, num_buckets, water_width, color):
@@ -48,6 +51,7 @@ def plot_flux_over_position(num_simulations, num_buckets, water_width, color):
     plt.title('Flux over position for an initial flux of 1000$cm^{-2}s^{-1}$')
     plt.axvline(x=water_width, color=color, linestyle='--', linewidth=0.5)
     print("Simulation done")
+    print(f"{time.time() - start_time:.2f}")
 
 
 def plot_flux_over_position_times_4(num_simulations_1, num_buckets_1):
@@ -102,6 +106,7 @@ def plot_single_collision_flux(num_simulations, num_buckets, water_width, color)
     plt.title('Flux over position for an initial flux of 1000$cm^{-2}s^{-1}$')
     plt.axvline(x=water_width, color=color, linestyle='--', linewidth=0.5)
     print("Simulation done")
+    print(f"{time.time() - start_time:.2f}")
 
 
 def plot_single_collision_flux_times_4(num_simulations, num_buckets):
@@ -157,6 +162,7 @@ def plot_multiple_collision_flux_over_position(num_simulations, num_buckets, wat
     plt.title('Flux over position for an initial flux of 1000$cm^{-2}s^{-1}$')
     plt.axvline(x=water_width, color=color, linestyle='--', linewidth=0.5)
     print("Simulation done")
+    print(f"{time.time() - start_time:.2f}")
 
 
 def plot_multiple_collision_flux_over_position_times_4(num_simulations, num_buckets):
@@ -209,7 +215,7 @@ def plot_slowing_down_density(num_simulations, num_buckets, water_width, color):
     plt.title('Slowing down density over position for an initial flux of 1000$cm^{-2}s^{-1}$')
     plt.axvline(x=water_width, color=color, linestyle='--', linewidth=0.5)
     print("Simulation done")
-
+    print(f"{time.time() - start_time:.2f}")
 
 
 def plot_slowing_down_density_times_4(num_simulations, num_buckets):
@@ -231,12 +237,16 @@ os.makedirs("figures", exist_ok=True)
 
 plot_flux_over_position_times_4(2000 * scale_num_simulation, 60)
 print("Figure 1")
+print(f"{time.time() - start_time:.2f}")
 
 plot_single_collision_flux_times_4(num_simulations=50000 * scale_num_simulation, num_buckets=600)
 print("Figure 2")
+print(f"{time.time() - start_time:.2f}")
 
 plot_multiple_collision_flux_over_position_times_4(num_simulations=2000 * scale_num_simulation, num_buckets=60)
 print("Figure 3")
+print(f"{time.time() - start_time:.2f}")
 
 plot_slowing_down_density_times_4(num_simulations=2000 * scale_num_simulation, num_buckets=60)
 print("Figure 4")
+print(f"{time.time() - start_time:.2f}")
