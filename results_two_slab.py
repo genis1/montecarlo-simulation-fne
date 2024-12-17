@@ -37,10 +37,12 @@ def plot_flux_over_position(num_simulations, num_buckets, water_width):
     flux_dict = {(bucket * bucket_width + bucket_width / 2): transform(bucket * bucket_width, count) for bucket, count
                  in
                  bucket_counts.items()}
+    flux_dict = {key: value for key, value in sorted(flux_dict.items())}
+
     flux = np.array(list(flux_dict.values()))
     positions = np.array(list(flux_dict.keys()))
 
-    plt.bar(positions, flux, color='skyblue', edgecolor='black', width=bucket_width)
+    plt.plot(positions, flux, color='skyblue', linestyle='-', linewidth=2)
     plt.xlabel('Distance (cm)')
     plt.ylabel('Flux ($cm^{-2}s^{-1}$)')
     plt.title('Flux over position for an initial flux of 1000$cm^{-2}s^{-1}$')
@@ -77,10 +79,12 @@ def plot_single_collision_flux(num_simulations, num_buckets, water_width):
     flux_dict = {(bucket * bucket_width + (bucket_width / 2)): transform(bucket * bucket_width, count) for bucket, count
                  in
                  bucket_counts.items()}
+    flux_dict = {key: value for key, value in sorted(flux_dict.items())}
+
     flux = np.array(list(flux_dict.values()))
     positions = np.array(list(flux_dict.keys()))
 
-    plt.bar(positions, flux, color='skyblue', edgecolor='skyblue', width=bucket_width)
+    plt.plot(positions, flux, color='skyblue', linestyle='-', linewidth=2)
     plt.xlabel('Distance (cm)')
     plt.ylabel('Flux ($cm^{-2}s^{-1}$)')
     plt.title('Flux over position for an initial flux of 1000$cm^{-2}s^{-1}$')
@@ -118,10 +122,12 @@ def plot_multiple_collision_flux_over_position(num_simulations, num_buckets, wat
     flux_dict = {(bucket * bucket_width + (bucket_width / 2)): transform(bucket * bucket_width, count) for bucket, count
                  in
                  bucket_counts.items()}
+    flux_dict = {key: value for key, value in sorted(flux_dict.items())}
+
     flux = np.array(list(flux_dict.values()))
     positions = np.array(list(flux_dict.keys()))
 
-    plt.bar(positions, flux, color='skyblue', edgecolor='black', width=bucket_width)
+    plt.plot(positions, flux, color='skyblue', linestyle='-', linewidth=2)
     plt.xlabel('Distance (cm)')
     plt.ylabel('Flux ($cm^{-2}s^{-1}$)')
     plt.title('Flux over position for an initial flux of 1000$cm^{-2}s^{-1}$')
@@ -155,10 +161,12 @@ def plot_slowing_down_density(num_simulations, num_buckets, water_width):
 
     flux_dict = {(bucket * bucket_width + (bucket_width / 2)): transform(count) for bucket, count in
                  bucket_counts.items()}
+    flux_dict = {key: value for key, value in sorted(flux_dict.items())}
+
     flux = np.array(list(flux_dict.values()))
     positions = np.array(list(flux_dict.keys()))
 
-    plt.bar(positions, flux, color='skyblue', edgecolor='black', width=bucket_width)
+    plt.plot(positions, flux, color='skyblue', linestyle='-', linewidth=2)
     plt.xlabel('Distance (cm)')
     plt.ylabel('Slowing down density ($cm^{-3}s^{-1}$)')
     plt.title('Slowing down density over position for an initial flux of 1000$cm^{-2}s^{-1}$')
@@ -168,19 +176,19 @@ def plot_slowing_down_density(num_simulations, num_buckets, water_width):
     plt.clf()
 
 
-scale_num_simulation = 1000  # 100 for standard, 1000 for good results, 1 for quick test
+scale_num_simulation = 10  # 100 for standard, 1000 for good results, 1 for quick test
 os.makedirs("figures", exist_ok=True)
 plot_flux_over_position(num_simulations=2000 * scale_num_simulation, num_buckets=60, water_width=5)
-plot_flux_over_position(num_simulations=2000 * scale_num_simulation, num_buckets=60, water_width=10)
-plot_flux_over_position(num_simulations=2000 * scale_num_simulation, num_buckets=60, water_width=15)
+#plot_flux_over_position(num_simulations=2000 * scale_num_simulation, num_buckets=60, water_width=10)
+#plot_flux_over_position(num_simulations=2000 * scale_num_simulation, num_buckets=60, water_width=15)
 plot_single_collision_flux(num_simulations=50000 * scale_num_simulation, num_buckets=600, water_width=5)
-plot_single_collision_flux(num_simulations=50000 * scale_num_simulation, num_buckets=600, water_width=10)
-plot_single_collision_flux(num_simulations=50000 * scale_num_simulation, num_buckets=600, water_width=15)
+#plot_single_collision_flux(num_simulations=50000 * scale_num_simulation, num_buckets=600, water_width=10)
+#plot_single_collision_flux(num_simulations=50000 * scale_num_simulation, num_buckets=600, water_width=15)
 plot_multiple_collision_flux_over_position(num_simulations=2000 * scale_num_simulation, num_buckets=60, water_width=5)
-plot_multiple_collision_flux_over_position(num_simulations=2000 * scale_num_simulation, num_buckets=60,
-                                           water_width=10)
-plot_multiple_collision_flux_over_position(num_simulations=2000 * scale_num_simulation, num_buckets=60,
-                                           water_width=15)
+#plot_multiple_collision_flux_over_position(num_simulations=2000 * scale_num_simulation, num_buckets=60,
+#                                           water_width=10)
+#plot_multiple_collision_flux_over_position(num_simulations=2000 * scale_num_simulation, num_buckets=60,
+#                                           water_width=15)
 plot_slowing_down_density(num_simulations=2000 * scale_num_simulation, num_buckets=60, water_width=5)
-plot_slowing_down_density(num_simulations=2000 * scale_num_simulation, num_buckets=60, water_width=10)
-plot_slowing_down_density(num_simulations=2000 * scale_num_simulation, num_buckets=60, water_width=15)
+#plot_slowing_down_density(num_simulations=2000 * scale_num_simulation, num_buckets=60, water_width=10)
+#plot_slowing_down_density(num_simulations=2000 * scale_num_simulation, num_buckets=60, water_width=15)
