@@ -241,6 +241,6 @@ plot_multiple_collision_flux_over_position_times_4(num_simulations=2000 * scale_
 print("Figure 3")
 print(f"{time.time() - start_time:.2f}")
 
-plot_slowing_down_density_times_4(num_simulations=2000*10 * scale_num_simulation, num_buckets=60)
+plot_slowing_down_density_times_4(num_simulations=2000 * scale_num_simulation, num_buckets=60)
 print("Figure 4")
 print(f"{time.time() - start_time:.2f}")
