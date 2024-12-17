@@ -133,6 +133,26 @@ def is_thermalized(v_f):
 
 
 def simulate_simple_two_slab(x, v, water_width):
+    results=[]
+    while True:
+        x = get_next_position(x, v, water_width)
+
+        if is_outside_right(x):
+            return "ESCAPED_RIGHT", results
+        if is_outside_left(x):
+            return "ESCAPED_LEFT", results
+
+        results.append(x[0])
+
+        if is_absorbed(x, water_width):
+            return "ABSORBED", results
+
+        v, theta_lab, energy = elastic_collision(v, get_atomic_mass_target(x, water_width))
+
+        if is_thermalized(v):
+            return "THERMALIZED", results
+
+def simulate_slow_down_density_two_slab(x, v, water_width):
     while True:
         x = get_next_position(x, v, water_width)
 
@@ -161,20 +181,24 @@ def simulate_single_collision_two_slab(x, v, water_width):
 
 def simulate_multiple_collision_two_slab(x, v, water_width):
     collisions = 0
+    results = []
     while True:
         x = get_next_position(x, v, water_width)
 
         if is_outside_right(x):
-            return "ESCAPED_RIGHT", x, collisions
+            return "ESCAPED_RIGHT", results
         if is_outside_left(x):
-            return "ESCAPED_LEFT", x, collisions
+            return "ESCAPED_LEFT", results
+
+        if collisions!=0:
+            results.append(x[0])
 
         collisions += 1
 
         if is_absorbed(x, water_width):
-            return "ABSORBED", x, collisions
+            return "ABSORBED", results
 
         v, theta_lab, energy = elastic_collision(v, get_atomic_mass_target(x, water_width))
 
         if is_thermalized(v):
-            return "THERMALIZED", x, collisions
+            return "THERMALIZED", results
